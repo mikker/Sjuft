@@ -1,0 +1,17 @@
+PODS:
+  - Dispatcher (0.1.3)
+  - Sjuft (0.1.0):
+    - Dispatcher (~> 0.1.0)
+
+DEPENDENCIES:
+  - Sjuft (from `../`)
+
+EXTERNAL SOURCES:
+  Sjuft:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Dispatcher: 1f9b7d475f91483644c9e2f3b076ffb4c4934a72
+  Sjuft: dbf83f6f6406060b2f568775cba0dde273d71384
+
+COCOAPODS: 0.38.0.beta.2

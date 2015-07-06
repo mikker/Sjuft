@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8121.20" systemVersion="15A204h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8101.16"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SjuftExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5gF-Jh-Ofs">
+                                <rect key="frame" x="215" y="120" width="170" height="40"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="7Pa-rX-YlH"/>
+                                    <constraint firstAttribute="width" constant="170" id="xWf-8K-31y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FOy-i3-JKD">
+                                <rect key="frame" x="215" y="168" width="70" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
+                                <state key="normal" title="-1"/>
+                                <connections>
+                                    <action selector="decrement:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6lp-E1-Hp8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QyX-9x-Zaw">
+                                <rect key="frame" x="315" y="168" width="70" height="30"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="15"/>
+                                <state key="normal" title="+1"/>
+                                <connections>
+                                    <action selector="increment:" destination="BYZ-38-t0r" eventType="touchUpInside" id="91C-4i-lEE"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QyX-9x-Zaw" firstAttribute="top" secondItem="5gF-Jh-Ofs" secondAttribute="bottom" constant="8" id="0g1-XB-Fph"/>
+                            <constraint firstItem="FOy-i3-JKD" firstAttribute="top" secondItem="5gF-Jh-Ofs" secondAttribute="bottom" constant="8" id="KwY-fr-uaF"/>
+                            <constraint firstItem="QyX-9x-Zaw" firstAttribute="leading" secondItem="FOy-i3-JKD" secondAttribute="trailing" constant="30" id="Nio-5y-32L"/>
+                            <constraint firstItem="FOy-i3-JKD" firstAttribute="leading" secondItem="5gF-Jh-Ofs" secondAttribute="leading" id="S9R-Xn-i3q"/>
+                            <constraint firstItem="5gF-Jh-Ofs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="100" id="a4e-3i-6PC"/>
+                            <constraint firstItem="FOy-i3-JKD" firstAttribute="width" secondItem="QyX-9x-Zaw" secondAttribute="width" id="hIU-Ur-pj6"/>
+                            <constraint firstItem="QyX-9x-Zaw" firstAttribute="trailing" secondItem="5gF-Jh-Ofs" secondAttribute="trailing" id="t1i-kd-TAO"/>
+                            <constraint firstItem="5gF-Jh-Ofs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="wtK-Xm-Kta"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="counterLabel" destination="5gF-Jh-Ofs" id="cmf-x6-ENw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="305" y="389"/>
+        </scene>
+    </scenes>
+</document>
