@@ -16,6 +16,10 @@ class ViewController: UIViewController {
         }
     }
     
+    deinit {
+        flux.unlisten(token)
+    }
+    
     @IBAction func increment(sender: AnyObject?) {
         flux.dispatch(CounterActions.increment())
     }
