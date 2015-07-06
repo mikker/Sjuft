@@ -1,3 +1,5 @@
+import Foundation
+
 // lib
 
 public protocol ActionConstant {}
@@ -5,8 +7,9 @@ public protocol AppState {}
 public protocol Store {
     func reduce(state: AppState, action: Action) -> AppState
 }
+public protocol Dispatchable {}
 
-public struct Action {
+public struct Action: Dispatchable {
     let type: ActionConstant
     let payload: Any?
     
@@ -21,12 +24,19 @@ public struct Action {
     }
 }
 
+public struct AsyncAction: Dispatchable {
+    public let dispatchFn: (Dispatchable -> Void) -> Void
+    public init(_ fn: (Dispatchable -> Void) -> Void) {
+        self.dispatchFn = fn
+    }
+}
+
 public class Flux {
-    var state: AppState {
+    public var dispatcher: Dispatcher
+    public var stores: [Store]
+    public var state: AppState {
         didSet { notifyListeners() }
     }
-    var dispatcher: Dispatcher
-    var stores: [Store]
     
     private var listeners: [AppState -> Void] = []
     
@@ -35,24 +45,34 @@ public class Flux {
         self.stores = stores
         self.state = initialState
         
-        self.dispatcher.register { action in
-            if let action = action as? Action {
-                self.state = stores.reduce(self.state) { (state, store) -> AppState in
-                    return store.reduce(state, action: action)
-                }
-            }
-        }
+        register()
     }
     
-    public func dispatch(action: Action) {
-        self.dispatcher.dispatch(action)
+    public func dispatch(dispatchable: Dispatchable) {
+        switch dispatchable {
+        case is Action:
+            dispatcher.dispatch(dispatchable)
+        case is AsyncAction:
+            (dispatchable as! AsyncAction).dispatchFn(self.dispatch)
+        default: ()
+        }
     }
     
     public func listen(handler: AppState -> Void) {
         listeners.append(handler)
     }
     
-    func notifyListeners() {
+    private func register() {
+        self.dispatcher.register { action in
+            if let action = action as? Action {
+                self.state = self.stores.reduce(self.state) { state, store in
+                    return store.reduce(state, action: action)
+                }
+            }
+        }
+    }
+    
+    private func notifyListeners() {
         for listener in listeners { listener(state) }
     }
 }
@@ -76,6 +96,13 @@ struct CounterActions {
     static func set(count: Int) -> Action {
         return Action(Actions.SetCounter, count)
     }
+    static func async(count: Int) -> AsyncAction {
+        return AsyncAction({ dispatch in
+            dispatch_after(1, dispatch_get_main_queue()) { () -> Void in
+                dispatch(self.set(count))
+            }
+        })
+    }
 }
 
 struct CounterStore: Store {
@@ -91,6 +118,7 @@ struct CounterStore: Store {
             state.count = action.payload as! Int
         default: ()
         }
+        
         return state
     }
 }
@@ -104,5 +132,8 @@ flux.listen { state in
 flux.dispatch(CounterActions.increment())
 flux.dispatch(Action(Actions.DecrementCounter))
 flux.dispatch(CounterActions.set(5))
+flux.dispatch(CounterActions.async(666))
 
 print("final: \(flux.state)")
+
+CFRunLoopRun()
