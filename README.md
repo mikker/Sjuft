@@ -16,11 +16,11 @@ func delay(secs: Double, then: () -> Void) {
     )
 }
 
-struct State: AppState {
+struct InitialState: State {
     var count: Int = 0
 }
 
-enum Actions: ActionConstant {
+enum Constants: Constant {
     case IncrementCounter
     case DecrementCounter
     case SetCounter
@@ -28,16 +28,16 @@ enum Actions: ActionConstant {
 
 struct CounterActions {
     static func increment() -> Action {
-        return Action(Actions.IncrementCounter)
+        return Action(Constants.IncrementCounter)
     }
     static func decrement() -> Action {
-        return Action(Actions.DecrementCounter)
+        return Action(Constants.DecrementCounter)
     }
     static func set(count: Int) -> Action {
-        return Action(Actions.SetCounter, count)
+        return Action(Constants.SetCounter, payload: count)
     }
-    static func async(count: Int) -> AsyncAction {
-        return AsyncAction({ dispatch in
+    static func async(count: Int) -> Action {
+        return Action(nil, payload: nil, { dispatch in
             delay(10) {
                 dispatch(self.set(count))
             }
@@ -46,15 +46,15 @@ struct CounterActions {
 }
 
 struct CounterStore: Store {
-    func reduce(state: AppState, action: Action) -> AppState {
-        var state = state as! State
+    func reduce(state: State, action: Action) -> State {
+        var state = state as! InitialState
 
-        switch action.type {
-        case Actions.IncrementCounter:
+        switch action.type! {
+        case Constants.IncrementCounter:
             state.count += 1
-        case Actions.DecrementCounter:
+        case Constants.DecrementCounter:
             state.count -= 1
-        case Actions.SetCounter:
+        case Constants.SetCounter:
             state.count = action.payload as! Int
         default: ()
         }
@@ -63,7 +63,7 @@ struct CounterStore: Store {
     }
 }
 
-let flux = Sjuft(initialState: State(), stores: [CounterStore()])
+let flux = Sjuft(initialState: InitialState(), stores: [CounterStore()])
 ```
 
 ### ViewController.swift
@@ -79,10 +79,16 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         self.token = flux.listen { state in
-            if let state = state as? State {
+            if let state = state as? InitialState {
                 self.counterLabel.text = String(state.count)
             }
         }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        flux.dispatch(CounterActions.async(666))
     }
 
     deinit {
