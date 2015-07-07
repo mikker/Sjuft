@@ -30,7 +30,7 @@ public struct AsyncAction: Dispatchable {
     }
 }
 
-public class Flux {
+public class Sjuft {
     public var dispatcher: Dispatcher
     public var stores: [Store]
     public var state: AppState {

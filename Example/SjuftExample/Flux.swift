@@ -54,4 +54,4 @@ struct CounterStore: Store {
     }
 }
 
-let flux = Flux(initialState: State(), stores: [CounterStore()])
+let flux = Sjuft(initialState: State(), stores: [CounterStore()])
