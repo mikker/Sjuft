@@ -12,7 +12,6 @@ struct State: AppState {
 }
 
 enum Actions: ActionConstant {
-    case None
     case IncrementCounter
     case DecrementCounter
     case SetCounter
@@ -29,7 +28,7 @@ struct CounterActions {
         return Action(Actions.SetCounter, payload: count)
     }
     static func async(count: Int) -> Action {
-        return Action(Actions.None, payload: nil, { dispatch in
+        return Action(nil, payload: nil, { dispatch in
             delay(10) {
                 dispatch(self.set(count))
             }
@@ -41,7 +40,7 @@ struct CounterStore: Store {
     func reduce(state: AppState, action: Action) -> AppState {
         var state = state as! State
         
-        switch action.type {
+        switch action.type! {
         case Actions.IncrementCounter:
             state.count += 1
         case Actions.DecrementCounter:

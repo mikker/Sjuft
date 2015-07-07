@@ -10,11 +10,11 @@ public protocol Store {
 public struct Action {
     public typealias CallbackFn = ((Action -> Void) -> Void)
     
-    public let type: ActionConstant
+    public let type: ActionConstant?
     public let payload: Any?
     public let callbackFn: CallbackFn?
 
-    public init(_ type: ActionConstant, payload: Any? = nil, _ fn: CallbackFn? = nil) {
+    public init(_ type: ActionConstant?, payload: Any? = nil, _ fn: CallbackFn? = nil) {
         self.type = type
         self.payload = payload
         self.callbackFn = fn
