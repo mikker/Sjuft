@@ -16,6 +16,12 @@ class ViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        flux.dispatch(CounterActions.async(666))
+    }
+    
     deinit {
         flux.unlisten(token)
     }

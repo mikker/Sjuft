@@ -22,7 +22,7 @@ struct CounterActions {
     }
     static func async(count: Int) -> AsyncAction {
         return AsyncAction({ dispatch in
-            dispatch_after(1, dispatch_get_main_queue()) { () -> Void in
+            dispatch_after(100000, dispatch_get_main_queue()) {
                 dispatch(self.set(count))
             }
         })
