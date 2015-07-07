@@ -1,20 +1,20 @@
 import Foundation
 import Dispatcher
 
-public protocol ActionConstant {}
-public protocol AppState {}
+public protocol Constant {}
+public protocol State {}
 public protocol Store {
-    func reduce(state: AppState, action: Action) -> AppState
+    func reduce(state: State, action: Action) -> State
 }
 
 public struct Action {
     public typealias CallbackFn = ((Action -> Void) -> Void)
     
-    public let type: ActionConstant?
+    public let type: Constant?
     public let payload: Any?
     public let callbackFn: CallbackFn?
 
-    public init(_ type: ActionConstant?, payload: Any? = nil, _ fn: CallbackFn? = nil) {
+    public init(_ type: Constant?, payload: Any? = nil, _ fn: CallbackFn? = nil) {
         self.type = type
         self.payload = payload
         self.callbackFn = fn
@@ -24,13 +24,13 @@ public struct Action {
 public class Sjuft {
     public var dispatcher: Dispatcher
     public var stores: [Store]
-    public var state: AppState {
+    public var state: State {
         didSet { notifyListeners() }
     }
 
-    private var listeners: [String: AppState -> Void] = [:]
+    private var listeners: [String: State -> Void] = [:]
 
-    public init(dispatcher: Dispatcher = Dispatcher(), initialState: AppState, stores: [Store] = []) {
+    public init(dispatcher: Dispatcher = Dispatcher(), initialState: State, stores: [Store] = []) {
         self.dispatcher = dispatcher
         self.stores = stores
         self.state = initialState
@@ -46,7 +46,7 @@ public class Sjuft {
         }
     }
 
-    public func listen(handler: AppState -> Void) -> String {
+    public func listen(handler: State -> Void) -> String {
         if let token = dispatcher.tokenGenerator.next() {
             listeners[token] = handler
             handler(state)
