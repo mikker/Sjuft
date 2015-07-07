@@ -6,27 +6,18 @@ public protocol AppState {}
 public protocol Store {
     func reduce(state: AppState, action: Action) -> AppState
 }
-public protocol Dispatchable {}
 
-public struct Action: Dispatchable {
+public struct Action {
+    public typealias CallbackFn = ((Action -> Void) -> Void)
+    
     public let type: ActionConstant
     public let payload: Any?
+    public let callbackFn: CallbackFn?
 
-    public init(_ type: ActionConstant) {
-        self.type = type
-        self.payload = nil
-    }
-
-    public init(_ type: ActionConstant, _ payload: Any?) {
+    public init(_ type: ActionConstant, payload: Any? = nil, _ fn: CallbackFn? = nil) {
         self.type = type
         self.payload = payload
-    }
-}
-
-public struct AsyncAction: Dispatchable {
-    public let dispatchFn: (Dispatchable -> Void) -> Void
-    public init(_ fn: (Dispatchable -> Void) -> Void) {
-        self.dispatchFn = fn
+        self.callbackFn = fn
     }
 }
 
@@ -47,13 +38,11 @@ public class Sjuft {
         register()        
     }
 
-    public func dispatch(dispatchable: Dispatchable) {
-        switch dispatchable {
-        case is Action:
-            dispatcher.dispatch(dispatchable)
-        case is AsyncAction:
-            (dispatchable as! AsyncAction).dispatchFn(self.dispatch)
-        default: ()
+    public func dispatch(action: Action) {
+        if let asyncFn = action.callbackFn {
+            asyncFn(self.dispatch)
+        } else {
+            dispatcher.dispatch(action)
         }
     }
 

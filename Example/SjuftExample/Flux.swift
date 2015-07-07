@@ -12,6 +12,7 @@ struct State: AppState {
 }
 
 enum Actions: ActionConstant {
+    case None
     case IncrementCounter
     case DecrementCounter
     case SetCounter
@@ -25,10 +26,10 @@ struct CounterActions {
         return Action(Actions.DecrementCounter)
     }
     static func set(count: Int) -> Action {
-        return Action(Actions.SetCounter, count)
+        return Action(Actions.SetCounter, payload: count)
     }
-    static func async(count: Int) -> AsyncAction {
-        return AsyncAction({ dispatch in
+    static func async(count: Int) -> Action {
+        return Action(Actions.None, payload: nil, { dispatch in
             delay(10) {
                 dispatch(self.set(count))
             }
