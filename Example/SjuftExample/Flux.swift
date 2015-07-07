@@ -1,5 +1,12 @@
 import Sjuft
 
+func delay(secs: Double, then: () -> Void) {
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, Int64(secs * Double(NSEC_PER_SEC))),
+        dispatch_get_main_queue(), then
+    )
+}
+
 struct State: AppState {
     var count: Int = 0
 }
@@ -22,7 +29,7 @@ struct CounterActions {
     }
     static func async(count: Int) -> AsyncAction {
         return AsyncAction({ dispatch in
-            dispatch_after(100000, dispatch_get_main_queue()) {
+            delay(10) {
                 dispatch(self.set(count))
             }
         })
