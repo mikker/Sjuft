@@ -1,12 +1,5 @@
 import Sjuft
 
-func delay(secs: Double, then: () -> Void) {
-    dispatch_after(
-        dispatch_time(DISPATCH_TIME_NOW, Int64(secs * Double(NSEC_PER_SEC))),
-        dispatch_get_main_queue(), then
-    )
-}
-
 struct State {
     var count = 0
 }
@@ -48,6 +41,13 @@ let counterStore = Store { (var state, action) -> State in
     }
     
     return state
+}
+
+func delay(secs: Double, then: () -> Void) {
+    dispatch_after(
+        dispatch_time(DISPATCH_TIME_NOW, Int64(secs * Double(NSEC_PER_SEC))),
+        dispatch_get_main_queue(), then
+    )
 }
 
 let flux = Sjuft(initialState: State(), stores: [counterStore])
