@@ -1,25 +1,26 @@
 import Foundation
 import Dispatcher
 
-public protocol Constant {}
-public struct Store<StateType> {
-    public let reducer: (state: StateType, action: Action) -> StateType
-    public init(reducer: (state: StateType, action: Action) -> StateType) {
-        self.reducer = reducer
-    }
-}
-
 public struct Action {
     public typealias CallbackFn = ((Action -> Void) -> Void)
     
-    public let type: Constant?
+    public let type: Any?
     public let payload: Any?
     public let callbackFn: CallbackFn?
 
-    public init(_ type: Constant?, payload: Any? = nil, _ fn: CallbackFn? = nil) {
+    public init(_ type: Any?, payload: Any? = nil, _ fn: CallbackFn? = nil) {
         self.type = type
         self.payload = payload
         self.callbackFn = fn
+    }
+}
+
+public struct Store<StateType> {
+    typealias ReduceFn = (state: StateType, action: Action) -> StateType
+    
+    public let reducer: ReduceFn
+    public init(_ reducer: ReduceFn) {
+        self.reducer = reducer
     }
 }
 
@@ -33,7 +34,10 @@ public class Sjuft<StateType> {
     private var stateListeners: [String: StateType -> Void] = [:]
     private var actionListeners: [String: Action -> Void] = [:]
 
-    public init(dispatcher: Dispatcher = Dispatcher(), initialState: StateType, stores: [Store<StateType>] = []) {
+    public init(dispatcher: Dispatcher = Dispatcher(),
+        initialState: StateType,
+        stores: [Store<StateType>] = []) {
+            
         self.dispatcher = dispatcher
         self.stores = stores
         self.state = initialState
@@ -103,19 +107,5 @@ public class Sjuft<StateType> {
         for listener in stateListeners.values {
             listener(state)
         }
-    }
-}
-
-// extensions
-
-public enum CocoaActions: Constant {
-    case Notification(NSNotification)
-}
-
-public extension Action {
-    public init(_ notification: NSNotification) {
-        self.type = CocoaActions.Notification(notification)
-        self.payload = notification.object
-        self.callbackFn = nil
     }
 }

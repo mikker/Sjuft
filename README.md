@@ -20,7 +20,7 @@ struct State {
     var count = 0
 }
 
-enum Constants: Constant {
+enum Constants {
     case IncrementCounter
     case DecrementCounter
     case SetCounter
@@ -59,7 +59,7 @@ let counterStore = Store { (var state, action) -> State in
     return state
 }
 
-let flux = Sjuft<State>(initialState: State(), stores: [counterStore])
+let flux = Sjuft(initialState: State(), stores: [counterStore])
 ```
 
 ### ViewController.swift
