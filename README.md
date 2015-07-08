@@ -16,8 +16,8 @@ func delay(secs: Double, then: () -> Void) {
     )
 }
 
-struct InitialState: State {
-    var count: Int = 0
+struct State {
+    var count = 0
 }
 
 enum Constants: Constant {
@@ -45,30 +45,28 @@ struct CounterActions {
     }
 }
 
-struct CounterStore: Store {
-    func reduce(state: State, action: Action) -> State {
-        var state = state as! InitialState
-
-        switch action.type! {
-        case Constants.IncrementCounter:
-            state.count += 1
-        case Constants.DecrementCounter:
-            state.count -= 1
-        case Constants.SetCounter:
-            state.count = action.payload as! Int
-        default: ()
-        }
-
-        return state
+let counterStore = Store { (var state, action) -> State in
+    switch action.type! {
+    case Constants.IncrementCounter:
+        state.count += 1
+    case Constants.DecrementCounter:
+        state.count -= 1
+    case Constants.SetCounter:
+        state.count = action.payload as! Int
+    default: ()
     }
+
+    return state
 }
 
-let flux = Sjuft(initialState: InitialState(), stores: [CounterStore()])
+let flux = Sjuft<State>(initialState: State(), stores: [counterStore])
 ```
 
 ### ViewController.swift
 
 ```swift
+import UIKit
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var counterLabel: UILabel!
@@ -79,9 +77,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         self.token = flux.listen { state in
-            if let state = state as? InitialState {
-                self.counterLabel.text = String(state.count)
-            }
+            self.counterLabel.text = String(state.count)
         }
     }
 

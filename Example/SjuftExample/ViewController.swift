@@ -10,9 +10,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         self.token = flux.listen { state in
-            if let state = state as? InitialState {
-                self.counterLabel.text = String(state.count)
-            }
+            self.counterLabel.text = String(state.count)
         }
     }
     
