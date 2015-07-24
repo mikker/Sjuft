@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "Sjuft"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.license          = 'MIT'
   s.summary          = "Flux in Swift"
   s.homepage         = "https://github.com/mikker/Sjuft"
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
 
-  s.dependency 'Dispatcher', '~> 0.1.0'
+  s.dependency 'Dispatcher', '~> 0.1.4'
 
   s.source_files = 'Sjuft.swift'
   s.requires_arc = true
