@@ -16,7 +16,7 @@ public struct Action {
 }
 
 public struct Store<StateType> {
-    typealias ReduceFn = (state: StateType, action: Action) -> StateType
+    public typealias ReduceFn = (state: StateType, action: Action) -> StateType
     
     public let reducer: ReduceFn
     public init(_ reducer: ReduceFn) {
