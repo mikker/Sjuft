@@ -1,17 +1,17 @@
 PODS:
   - Dispatcher (0.1.4)
-  - Sjuft (0.1.0):
-    - Dispatcher (~> 0.1.0)
+  - Sjuft (0.1.1):
+    - Dispatcher (~> 0.1.4)
 
 DEPENDENCIES:
   - Sjuft (from `../`)
 
 EXTERNAL SOURCES:
   Sjuft:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   Dispatcher: 46f3efaa4ea4b0d2cfce688d6de6b904c471f1b2
-  Sjuft: dbf83f6f6406060b2f568775cba0dde273d71384
+  Sjuft: 0172881c435c21a69235caf10fe2923768606b16
 
-COCOAPODS: 0.38.1
+COCOAPODS: 0.39.0.beta.4
