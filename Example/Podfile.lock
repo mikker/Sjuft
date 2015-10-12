@@ -8,10 +8,10 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   Sjuft:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   Dispatcher: 46f3efaa4ea4b0d2cfce688d6de6b904c471f1b2
   Sjuft: 0172881c435c21a69235caf10fe2923768606b16
 
-COCOAPODS: 0.39.0.beta.4
+COCOAPODS: 0.39.0

@@ -13,7 +13,7 @@
 		42B7127A1B4B14D4009EF34B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42B712791B4B14D4009EF34B /* Assets.xcassets */; };
 		42B7127D1B4B14D4009EF34B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42B7127B1B4B14D4009EF34B /* LaunchScreen.storyboard */; };
 		42B712851B4B1A0F009EF34B /* Flux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42B712841B4B1A0F009EF34B /* Flux.swift */; };
-		AF0D765DEB09ADB4E82061F0 /* Pods_SjuftExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E913164656A6378F99579F4 /* Pods_SjuftExample.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		AF0D765DEB09ADB4E82061F0 /* Pods_SjuftExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E913164656A6378F99579F4 /* Pods_SjuftExample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
